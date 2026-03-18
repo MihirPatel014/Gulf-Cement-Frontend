@@ -1,9 +1,9 @@
 export type ProductDto = {
   id: number;
   name: string;
-  sku: string;
   price: number;
-  isActive: boolean;
+  packaging:string;
+  unit:string;
 };
 
 export interface ProductService {

@@ -8,6 +8,9 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import { ProductsPage } from "../features/products/routes/products-page";
+import OrderDetailsPage from "../features/orders/routes/order-details-page";
+import OrdersPage from "../features/orders/routes/orders-page";
+import CreateOrderPage from "../features/orders/routes/create-order-page";
 import { NotFoundPage } from "./not-found";
 import { LoginPage } from "../features/auth/components/LoginPage";
 import { AuthGuard, GuestGuard } from "../features/auth/components/AuthGuard";
@@ -206,13 +209,42 @@ const productsRoute = createRoute({
     </AuthGuard>
   ),
 });
-
+const ordersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/orders',
+  component: () => (
+    <AuthGuard>
+      <OrdersPage />
+    </AuthGuard>
+  ),
+});
+const orderDetailsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/orders/$orderId",
+  component: () => (
+    <AuthGuard>
+      <OrderDetailsPage />
+    </AuthGuard>
+  ),
+});
+const createOrderRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/orders/new",
+  component: () => (
+    <AuthGuard>
+      <CreateOrderPage />
+    </AuthGuard>
+  )
+});
 const routeTree = rootRoute.addChildren([
   loginRoute,
   signupRoute,
   dashboardRoute,
   indexRoute,
   productsRoute,
+  ordersRoute,
+  orderDetailsRoute,
+  createOrderRoute
 ]);
 
 const router = createRouter({ 

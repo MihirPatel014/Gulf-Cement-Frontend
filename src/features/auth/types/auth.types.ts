@@ -22,11 +22,16 @@ export interface User {
 }
 
 export interface AuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  expiresAt: string;
-  user: User;
+  success: boolean;
+  message: string | null;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: string;
+    user: User;
+  };
 }
+
 
 export interface LoginRequest {
   userName: string;
