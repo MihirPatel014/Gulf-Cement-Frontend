@@ -317,3 +317,67 @@ font-size:18px;
 font-weight:600;
 margin:0;
 }
+
+/* Multi-Item Order Styles */
+
+.order-item-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+  padding:12px;
+  background:#f9fafb;
+  border-radius:8px;
+}
+
+.order-item-row .item-fields{
+  display:flex;
+  flex:1;
+  gap:10px;
+  align-items:center;
+}
+
+.order-item-row .form-select,
+.order-item-row .form-input{
+  flex:1;
+  padding:8px 10px;
+  border:1px solid #d1d5db;
+  border-radius:6px;
+  font-size:14px;
+}
+
+.order-item-row .packaging-label{
+  min-width:60px;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.remove-item-btn{
+  padding:6px 10px;
+  background:#fee2e2;
+  color:#dc2626;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.remove-item-btn:hover{
+  background:#fecaca;
+}
+
+.add-item-btn{
+  padding:8px 16px;
+  background:#f3f4f6;
+  color:#374151;
+  border:1px dashed #9ca3af;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  width:100%;
+  margin-top:8px;
+}
+
+.add-item-btn:hover{
+  background:#e5e7eb;
+}

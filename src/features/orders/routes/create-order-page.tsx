@@ -11,13 +11,22 @@ import {
 import "./create-order-page.css";
 import { useNavigate } from "@tanstack/react-router"
 
+type OrderItem = {
+  productId: string
+  quantity: string
+  packaging: string
+}
+
 export default function CreateOrderPage() {
 
-  const { data: products = [] } = useProductsQuery()
+  const { data: productsData } = useProductsQuery({ pageSize: 100 });
+  const products = productsData?.data ?? [];
+
+  const [items, setItems] = useState<OrderItem[]>([
+    { productId: "", quantity: "", packaging: "" }
+  ])
 
   const [form, setForm] = useState({
-  productId: "",
-  quantity: "",
   transportType: "Company",
 
   deliveryAddress: "",
@@ -34,19 +43,49 @@ export default function CreateOrderPage() {
   estimatedArrivalAtPlant: ""
 })
   const [addressMode, setAddressMode] = useState<"saved" | "new">("saved")
-  const product = products.find(p => p.id === Number(form.productId))
-  const unit =
-  product?.packaging === "Bulk"
-    ? "MT"
-    : product?.packaging === "Bags"
-    ? "bag"
-    : ""
-  const subtotal = product && form.quantity
-    ? product.price * Number(form.quantity)
-    : 0
-const navigate = useNavigate()
+
+  const getUnit = (packaging: string) =>
+    packaging === "Bulk" ? "MT" : packaging === "Bags" ? "bag" : ""
+
+  const getProduct = (productId: string) => products.find(p => p.id === Number(productId))
+
+  const calculateSubtotal = () => {
+    return items.reduce((sum, item) => {
+      const product = getProduct(item.productId)
+      if (product && item.quantity) {
+        return sum + product.price * Number(item.quantity)
+      }
+      return sum
+    }, 0)
+  }
+
+  const subtotal = calculateSubtotal()
+  const navigate = useNavigate()
   const vat = subtotal * 0.05
   const total = subtotal + vat
+
+  const handleItemChange = (index: number, field: keyof OrderItem, value: string) => {
+    const newItems = [...items]
+    newItems[index] = { ...newItems[index], [field]: value }
+    
+    // Auto-set packaging when product is selected
+    if (field === "productId") {
+      const product = getProduct(value)
+      newItems[index].packaging = product?.packaging || ""
+    }
+    
+    setItems(newItems)
+  }
+
+  const addItem = () => {
+    setItems([...items, { productId: "", quantity: "", packaging: "" }])
+  }
+
+  const removeItem = (index: number) => {
+    if (items.length > 1) {
+      setItems(items.filter((_, i) => i !== index))
+    }
+  }
 
   const handleChange = (field: string, value: any) => {
     setForm(prev => ({ ...prev, [field]: value }))
@@ -54,14 +93,23 @@ const navigate = useNavigate()
 
   const handleSubmit = async () => {
 
+    // Filter out empty items
+    const validItems = items.filter(item => item.productId && item.quantity)
+
+    if (validItems.length === 0) {
+      alert("Please add at least one product")
+      return
+    }
+
     const payload = {
-  items: [
-    {
-      productId: Number(form.productId),
-      quantity: Number(form.quantity),
+  items: validItems.map(item => {
+    const product = getProduct(item.productId)
+    return {
+      productId: Number(item.productId),
+      quantity: Number(item.quantity),
       packaging: product?.packaging || ""
     }
-  ],
+  }),
 
   transportType: form.transportType,
 
@@ -121,53 +169,61 @@ const navigate = useNavigate()
             <h3><ShoppingCart size={18}/> Order Details</h3>
           </div>
 
-          {/* PRODUCT */}
+          {/* PRODUCTS */}
           <div className="form-group">
-            <label className="form-label">Product *</label>
+            <label className="form-label">Products *</label>
 
-            <select
-              className="form-select"
-              value={form.productId}
-              onChange={(e)=>handleChange("productId", e.target.value)}
+            {items.map((item, index) => {
+              const unit = getUnit(item.packaging)
+              
+              return (
+                <div key={index} className="order-item-row">
+                  <div className="item-fields">
+                    <select
+                      className="form-select"
+                      value={item.productId}
+                      onChange={(e) => handleItemChange(index, "productId", e.target.value)}
+                    >
+                      <option value="">Select product...</option>
+                      {products.map(p => (
+                        <option key={p.id} value={p.id}>
+                          {p.name} — AED {p.price}/{p.packaging === "Bulk" ? "MT" : "bag"}
+                        </option>
+                      ))}
+                    </select>
+
+                    <input
+                      type="number"
+                      className="form-input"
+                      placeholder={`Qty (${unit})`}
+                      value={item.quantity}
+                      onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+                    />
+
+                    <span className="packaging-label">{item.packaging || "-"}</span>
+                  </div>
+
+                  {items.length > 1 && (
+                    <button
+                      type="button"
+                      className="remove-item-btn"
+                      onClick={() => removeItem(index)}
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+
+            <button
+              type="button"
+              className="add-item-btn"
+              onClick={addItem}
             >
-              <option value="">Select product...</option>
-
-              {products.map(p=>(
-                <option key={p.id} value={p.id}>
-                  {p.name} — AED {p.price}/{p.packaging === "Bulk" ? "MT" : "bag"}
-                </option>
-              ))}
-
-            </select>
+              + Add Another Product
+            </button>
           </div>
-
-          <div className="form-row">
-
-            <div className="form-group">
-                <label className="form-label">
-                    Quantity ({unit}) * 
-                </label>
-
-                <input
-                type="number"
-                className="form-input"
-                placeholder={`e.g. 50 ${unit}`}
-                value={form.quantity}
-                onChange={(e)=>handleChange("quantity", e.target.value)}
-                />
-            </div>
-
-            <div className="form-group">
-                <label className="form-label">Packaging</label>
-
-                <input
-                className="form-input"
-                value={product?.packaging || "-"}
-                disabled
-                />
-            </div>
-
-            </div>
 
           {/* TRANSPORT */}
           <div className="form-group">
@@ -404,27 +460,21 @@ const navigate = useNavigate()
     <span>Order Summary</span>
   </div>
 
-  {product ? (
+  {items.some(i => i.productId) ? (
     <>
 
-      <div className="summary-row">
-        <span>Product</span>
-        <strong>{product.name}</strong>
-      </div>
-
-      <div className="summary-row">
-        <span>Unit Price</span>
-        <span>
-          AED {product.price} / {unit}
-        </span>
-      </div>
-
-      <div className="summary-row">
-        <span>Quantity</span>
-        <span>
-          {form.quantity || 0} {unit}
-        </span>
-      </div>
+      {items.filter(i => i.productId).map((item, idx) => {
+        const product = getProduct(item.productId)
+        const unit = getUnit(item.packaging)
+        const lineTotal = product ? product.price * Number(item.quantity) : 0
+        
+        return (
+          <div key={idx} className="summary-row">
+            <span>{product?.name} x{item.quantity} {unit}</span>
+            <span>AED {lineTotal.toFixed(2)}</span>
+          </div>
+        )
+      })}
 
       <div className="divider"/>
 

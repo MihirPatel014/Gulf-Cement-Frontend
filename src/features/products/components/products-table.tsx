@@ -1,64 +1,57 @@
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  type ColumnDef,
-} from "@tanstack/react-table";
 import type { ProductDto } from "../../../services/contracts/product";
+import type { ColumnDef } from "@tanstack/react-table";
 
-const columns: ColumnDef<ProductDto>[] = [
-  { accessorKey: "id", header: "Id" },
-  { accessorKey: "name", header: "Name" },
-  { accessorKey: "sku", header: "SKU" },
-  { accessorKey: "price", header: "Price" },
-  {
-    accessorKey: "isActive",
-    header: "Status",
-    cell: (info) => (info.getValue<boolean>() ? "Active" : "Inactive"),
-  },
-];
-
-type Props = {
-  data: ProductDto[];
-};
-
-export function ProductsTable({ data }: Props) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <table>
-      <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th key={header.id}>
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
+function formatCurrency(value: number) {
+  return `AED ${value.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+  })}`;
 }
 
+export function getProductColumns(): ColumnDef<ProductDto>[] {
+  return [
+    {
+      accessorKey: "code",
+      header: "CODE",
+    },
+    {
+      accessorKey: "name",
+      header: "PRODUCT NAME",
+      cell: ({ row }) => (
+        <div>
+          <div className="product-name">{row.original.name}</div>     
+        </div>
+      ),
+    },
+    {
+      accessorKey: "price",
+      header: "PRICE",
+      cell: ({ row }) => (
+        <span className="amount">{formatCurrency(row.original.price)}</span>
+      ),
+    },
+    {
+      accessorKey: "quantity",
+      header: "QTY",
+    },
+    {
+      accessorKey: "unitName",
+      header: "UNIT",
+      cell: ({ row }) => (
+        <span>{row.original.unitCode || row.original.unit || '-'}</span>
+      ),
+    },
+    {
+      accessorKey: "packaging",
+      header: "PACKAGING",
+    },
+    {
+      accessorKey: "isActive",
+      header: "STATUS",
+      cell: ({ row }) => (
+        <span className={`badge ${row.original.isActive ? "badge-green" : "badge-gray"}`}>
+          {row.original.isActive ? "Active" : "Inactive"}
+        </span>
+      ),
+    },
+  ];
+}

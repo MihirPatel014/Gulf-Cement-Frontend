@@ -15,22 +15,10 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: (data: LoginRequest) => authApi.login(data),
     onSuccess: (response) => {
-
-  localStorage.setItem(
-    "auth_access_token",
-    response.data.accessToken
-  );
-
-  localStorage.setItem(
-    "auth_refresh_token",
-    response.data.refreshToken
-  );
-
-  setAuth(response.data);
-
-  toast.success('Login successful!');
-  navigate({ to: '/' });
-},
+      setAuth(response);
+      toast.success('Login successful!');
+      navigate({ to: '/' });
+    },
 
 
     onError: (error: any) => {

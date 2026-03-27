@@ -39,6 +39,10 @@ function getStatusClass(status: string) {
       return "badge-cyan";
     case "Delivered":
       return "badge-green";
+    case "ShipmentCreated":
+      return "badge-yellow";
+    case "Weighing":
+      return "badge-orange";
     default:
       return "badge-gray";
   }
@@ -52,7 +56,7 @@ export default function OrderDetailsModal({
 }) {
 
   const { data: order, isLoading } = useOrderQuery(orderId)
-  const { data: tracking = [] } = useOrderTrackingQuery(orderId)
+  useOrderTrackingQuery(orderId)
 
   if (isLoading) {
     return (
@@ -69,22 +73,20 @@ export default function OrderDetailsModal({
 
   if (!order) return null
 
-  const item = order.items?.[0]
-
-  const timelineSteps = [
-    { key: "Submitted", label: "Order Submitted", icon: Check },
-    { key: "Approved", label: "Approved", icon: ClipboardCheck },
-    { key: "TokenIssued", label: "Token Issued", icon: Ticket },
-    { key: "ZoneAssigned", label: "Zone Assigned", icon: MapPin },
-    { key: "Loading", label: "Loading", icon: Package },
-    { key: "Weighing", label: "Weighing", icon: Package },
-    { key: "VoucherReady", label: "Voucher Ready", icon: FileText },
-    { key: "GateExit", label: "Gate Out", icon: LogOut },
-    { key: "InTransit", label: "In Transit", icon: Truck },
-    { key: "Arrived", label: "Arrived", icon: MapPinned },
-    { key: "Delivered", label: "Delivered", icon: CheckCircle }
-  ]
-
+ const timelineSteps = [
+  { key: "Submitted", label: "Order Submitted", icon: Check },
+  { key: "Approved", label: "Approved", icon: ClipboardCheck },
+  { key: "ShipmentCreated", label: "Shipment Created", icon: Truck }, 
+  { key: "TokenIssued", label: "Token Issued", icon: Ticket },
+  { key: "ZoneAssigned", label: "Zone Assigned", icon: MapPin },
+  { key: "Loading", label: "Loading", icon: Package },
+  { key: "Weighing", label: "Weighing", icon: Package },
+  { key: "VoucherReady", label: "Voucher Ready", icon: FileText },
+  { key: "GateExit", label: "Gate Out", icon: LogOut },
+  { key: "InTransit", label: "In Transit", icon: Truck },
+  { key: "Arrived", label: "Arrived", icon: MapPinned },
+  { key: "Delivered", label: "Delivered", icon: CheckCircle }
+]
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -137,13 +139,16 @@ export default function OrderDetailsModal({
             </div>
 
             <div className="info-row">
-              <span>Product:</span>
-              <strong>{item?.productName}</strong>
-            </div>
-
-            <div className="info-row">
-              <span>Quantity:</span>
-              <strong>{item?.quantity}</strong>
+              <span>Products:</span>
+              <div className="items-list">
+                {order.items?.map((item, idx) => (
+                  <div key={idx} className="item-row">
+                    <span>{item.productName}</span>
+                    <span className="item-qty">x{item.quantity}</span>
+                    <span className="item-price">AED {item.lineTotal}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="info-row">

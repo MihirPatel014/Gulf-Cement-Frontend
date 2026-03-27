@@ -220,3 +220,37 @@
   background:#cffafe;
   color:#0e7490;
 }
+
+/* ITEMS LIST */
+
+.modal .items-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:8px;
+}
+
+.modal .item-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px 12px;
+  background:#f9fafb;
+  border-radius:8px;
+  font-size:14px;
+}
+
+.modal .item-row span{
+  color:#111827;
+  font-weight:500;
+}
+
+.modal .item-qty{
+  color:#6b7280 !important;
+  font-weight:400 !important;
+}
+
+.modal .item-price{
+  color:#059669 !important;
+  font-weight:600 !important;
+}

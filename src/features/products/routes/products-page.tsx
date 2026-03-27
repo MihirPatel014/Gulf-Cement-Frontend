@@ -1,46 +1,44 @@
-import { toast } from "sonner";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import { useEffect } from "react";
+import { useState, useMemo } from "react";
+import { Package } from "lucide-react";
 import { useProductsQuery } from "../hooks/use-products-query";
-import { ProductsTable } from "../components/products-table";
+import { DataTable } from "../../../components/ui/DataTable";
+import { getProductColumns } from "../components/products-table";
 
 export function ProductsPage() {
-  const productsQuery = useProductsQuery();
+  const [page, setPage] = useState(1);
+  const pageSize = 10;
 
-  useEffect(() => {
-    if (productsQuery.isError) {
-      const message =
-        productsQuery.error instanceof Error
-          ? productsQuery.error.message
-          : "Unknown error";
-      toast.error(`Failed to load products: ${message}`);
-    }
-  }, [productsQuery.error, productsQuery.isError]);
+  const { data, isLoading, isFetching } = useProductsQuery({
+    pageNumber: page,
+    pageSize,
+    sortBy: "id",
+    sortOrder: "desc",
+  });
 
-  if (productsQuery.isLoading) {
-    return (
-      <div className="card">
-        <h2 className="title">Products</h2>
-        <Skeleton height={24} count={5} />
-      </div>
-    );
-  }
+  const products = data?.data ?? []
+  const totalCount = data?.totalCount ?? 0
 
-  if (productsQuery.isError) {
-    return (
-      <div className="card">
-        <h2 className="title">Products</h2>
-        <p className="subtitle">Failed to load products.</p>
-      </div>
-    );
+  const columns = useMemo(() => getProductColumns(), [])
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage)
   }
 
   return (
-    <div className="card">
-      <h2 className="title">Products</h2>
-      <p className="subtitle">Data is provided by the configured service adapter.</p>
-      <ProductsTable data={productsQuery.data ?? []} />
+    <div className="p-6">
+      <DataTable
+        columns={columns}
+        data={products}
+        searchPlaceholder="Search products..."
+        title="Products Management"
+        subtitle="View and manage cement products"
+        icon={<Package size={24} />}
+        isLoading={isLoading || isFetching}
+        pageSize={pageSize}
+        totalCount={totalCount}
+        onPageChange={handlePageChange}
+        currentPage={page}
+      />
     </div>
   );
 }

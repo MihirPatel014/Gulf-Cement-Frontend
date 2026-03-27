@@ -103,3 +103,40 @@
 .amount {
   font-weight: 600;
 }
+
+/* Order Items */
+
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #f9fafb;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.order-item .item-name {
+  flex: 1;
+  font-weight: 500;
+  color: #111827;
+}
+
+.order-item .item-qty {
+  color: #6b7280;
+}
+
+.order-item .item-pack {
+  color: #6b7280;
+  font-size: 12px;
+  background: #e5e7eb;
+  padding: 2px 8px;
+  border-radius: 4px;
+}

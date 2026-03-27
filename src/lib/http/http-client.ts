@@ -49,3 +49,40 @@ export async function httpPost<T>(path: string, body: unknown): Promise<T> {
 
   return (await response.json()) as T;
 }
+
+export async function httpPut<T>(path: string, body: unknown): Promise<T> {
+
+  const token = localStorage.getItem("auth_access_token");
+
+  const response = await fetch(`${env.apiBaseUrl}${path}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const resBody = await response.text();
+    throw new Error(`PUT ${path} failed: ${response.status} ${resBody}`);
+  }
+
+  return (await response.json()) as T;
+}
+
+export async function httpDelete(path: string): Promise<void> {
+  const token = localStorage.getItem("auth_access_token");
+  const response = await fetch(`${env.apiBaseUrl}${path}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+  });
+
+  if (!response.ok) {
+    const resBody = await response.text();
+    throw new Error(`DELETE ${path} failed: ${response.status} ${resBody}`);
+  }
+}

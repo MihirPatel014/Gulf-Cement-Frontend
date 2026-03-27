@@ -1,23 +1,23 @@
 import React from 'react';
-import { 
-  ShoppingCart, 
-  Truck, 
-  Scale, 
-  Clock, 
+import {
+  ShoppingCart,
+  Truck,
+  Scale,
+  Clock,
   DollarSign,
   Zap,
   CheckCircle
 } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  LineChart, 
-  Line 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line
 } from 'recharts';
 import { useAuthStore } from '../../../store/auth-store';
 import { UserType } from '../../auth/types/auth.types';
@@ -43,18 +43,18 @@ const revenueData = [
 
 export const DashboardPage: React.FC = () => {
   const user = useAuthStore((state: any) => state.user);
-  const isStaff = user?.role === 'STAFF' || user?.userType === UserType.STAFF;
+  const isStaff = user?.userType === UserType.STAFF || user?.role === 'STAFF' || user?.role === 'SYSTEM_ADMIN' || user?.role === 'Admin';
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-AE', { 
-      day: 'numeric', 
-      month: 'long', 
-      year: 'numeric' 
+    return date.toLocaleDateString('en-AE', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
     });
   };
 
   return (
-    <div className="p-6">
+    <div className="p-2">
       <div className="page-header">
         <h1 className="page-title">{isStaff ? 'Operations Dashboard' : 'Customer Portal'}</h1>
         <p className="page-subtitle">
@@ -71,7 +71,7 @@ export const DashboardPage: React.FC = () => {
           </div>
           <div className="kpi-icon primary"><ShoppingCart size={24} /></div>
         </div>
-        
+
         <div className="kpi-card success">
           <div>
             <div className="kpi-label">{isStaff ? 'Dispatched Today' : 'Total Deliveries'}</div>
@@ -112,7 +112,7 @@ export const DashboardPage: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
                   <XAxis dataKey="day" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   />
                   <Bar dataKey="orders" fill="#0B3D91" radius={[4, 4, 0, 0]} name="Orders" />
@@ -132,15 +132,15 @@ export const DashboardPage: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000)}k`} />
-                  <Tooltip 
+                  <Tooltip
                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="revenue" 
-                    stroke="#0B3D91" 
-                    strokeWidth={3} 
-                    dot={{ r: 4, fill: '#0B3D91' }} 
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#0B3D91"
+                    strokeWidth={3}
+                    dot={{ r: 4, fill: '#0B3D91' }}
                     activeDot={{ r: 6 }}
                   />
                 </LineChart>
@@ -156,7 +156,7 @@ export const DashboardPage: React.FC = () => {
         </div>
         <div className="p-4" style={{ textAlign: 'center', color: 'var(--text-secondary)', padding: '40px' }}>
           <div style={{ background: 'var(--bg)', display: 'inline-flex', padding: '16px', borderRadius: '50%', marginBottom: '16px' }}>
-             <CheckCircle size={32} color="var(--primary)" />
+            <CheckCircle size={32} color="var(--primary)" />
           </div>
           <h3>System Fully Operational</h3>
           <p>Your recent activities will appear here once you start processing orders.</p>

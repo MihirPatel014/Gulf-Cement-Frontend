@@ -64,7 +64,6 @@ export default function OrderDetailsPage() {
 }
   if (!order) return <div>Order not found</div>;
 
-  const item = order.items?.[0];
   const timelineSteps = [
   { key: "Submitted", label: "Order Submitted", icon: Check },
   { key: "Approved", label: "Dispatch Approved", icon: ClipboardCheck },
@@ -146,18 +145,16 @@ const currentIndex = timelineSteps.findIndex(
           </div>
 
           <div className="info-row">
-            <span>Product</span>
-            <span>{item?.productName}</span>
-          </div>
-
-          <div className="info-row">
-            <span>Quantity</span>
-            <span>{item?.quantity}</span>
-          </div>
-
-          <div className="info-row">
-            <span>Packaging</span>
-            <span>{item?.packaging}</span>
+            <span>Products</span>
+            <div className="order-items">
+              {order.items?.map((item, idx) => (
+                <div key={idx} className="order-item">
+                  <span className="item-name">{item.productName}</span>
+                  <span className="item-qty">x{item.quantity}</span>
+                  <span className="item-pack">{item.packaging}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="info-row">

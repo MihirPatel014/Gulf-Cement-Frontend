@@ -97,3 +97,51 @@
 .btn-primary:hover{
   background:#1e40af;
 }
+
+/* Multi-item product row */
+
+.modal-body .product-row{
+  display:flex;
+  gap:10px;
+  align-items:flex-end;
+  margin-bottom:12px;
+}
+
+.modal-body .product-row select{
+  flex:2;
+}
+
+.modal-body .product-row input{
+  flex:1;
+}
+
+.modal-body .btn-remove{
+  padding:10px 14px;
+  background:#fee2e2;
+  color:#dc2626;
+  border:none;
+  border-radius:8px;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.modal-body .btn-remove:hover{
+  background:#fecaca;
+}
+
+.modal-body .btn-add{
+  padding:10px 16px;
+  background:#f3f4f6;
+  color:#374151;
+  border:1px dashed #9ca3af;
+  border-radius:8px;
+  font-size:14px;
+  cursor:pointer;
+  width:100%;
+  margin-top:10px;
+}
+
+.modal-body .btn-add:hover{
+  background:#e5e7eb;
+}

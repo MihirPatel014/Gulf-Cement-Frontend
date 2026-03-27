@@ -137,3 +137,20 @@
   background: #dbeafe;
   color: #2563eb;
 }
+
+/* Multiple Products List */
+
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-item {
+  padding: 2px 0;
+}
+
+.product-item .product-name {
+  font-weight: 500;
+  color: #111827;
+}

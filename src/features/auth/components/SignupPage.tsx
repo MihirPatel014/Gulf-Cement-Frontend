@@ -12,6 +12,9 @@ import { Link } from '@tanstack/react-router';
 import { useAuth } from '../hooks/useAuth';
 import { UserType } from '../types/auth.types';
 import { LoadingButton } from '../../../components/ui/LoadingButton';
+import { RoleSelect } from '../../../components/ui/RoleSelect';
+
+
 
 const signupSchema = z.object({
   fullName: z.string().min(3, 'Full name must be at least 3 characters'),
@@ -40,6 +43,7 @@ export const SignupPage: React.FC = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -47,6 +51,8 @@ export const SignupPage: React.FC = () => {
       userType: UserType.CUSTOMER
     }
   });
+
+  const watchStaffRole = watch('staffRole');
 
   const onSubmit = (data: SignupFormValues) => {
     setServerError(null);
@@ -124,20 +130,12 @@ export const SignupPage: React.FC = () => {
           </div>
 
           {roleMode === 'staff' && (
-            <div className="form-group">
-              <label className="form-label">Staff Role</label>
-              <select 
-                {...register('staffRole')}
-                className="form-input"
-                style={{ appearance: 'auto' }}
-              >
-                <option value="">Select a role...</option>
-                <option value="Control Room User">Control Room User</option>
-                <option value="Transportation User">Transportation User</option>
-                <option value="Dispatch User">Dispatch User</option>
-              </select>
-              {errors.staffRole && <p className="form-error">{errors.staffRole.message}</p>}
-            </div>
+            <RoleSelect
+              label="Staff Role"
+              value={watchStaffRole || ''}
+              onChange={(val) => setValue('staffRole', val)}
+              error={errors.staffRole?.message}
+            />
           )}
 
           <div className="form-group">

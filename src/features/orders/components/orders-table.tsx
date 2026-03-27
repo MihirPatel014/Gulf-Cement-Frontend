@@ -14,6 +14,8 @@ type Order = {
   productName: string;
   packaging: string;
   quantity: number;
+  itemsCount: number;
+  items?: any[];
   totalAmount: number;
   status: string;
   transportOption: string;
@@ -48,6 +50,10 @@ function getStatusClass(status: string) {
       return "badge-cyan";
     case "Delivered":
       return "badge-green";
+    case "ShipmentCreated":
+     return "badge-yellow";
+    case "Weighing":
+      return "badge-orange";
     default:
       return "badge-gray";
   }
@@ -96,17 +102,45 @@ export function OrdersTable({
       header: "PRODUCT",
       cell: ({ row }) => (
         <div>
-          <div className="product-name">{row.original.productName}</div>
-          <div className="product-type">{row.original.packaging}</div>
+          {row.original.itemsCount > 1 ? (
+            <div className="products-list">
+              {row.original.items?.map((item: any, idx: number) => (
+                <div key={idx} className="product-item">
+                  <span className="product-name">{item.productName}</span>
+                  <div className="product-type">{item.packaging}</div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <div className="product-name">{row.original.productName}</div>
+              <div className="product-type">{row.original.packaging}</div>
+            </div>
+          )}
         </div>
       ),
     },
+{
+  accessorKey: "quantity",
+  header: "QTY",
+  cell: ({ row }) => {
+  
+    if (row.original.itemsCount > 1) {
+      return (
+        <div className="products-list">
+          {row.original.items?.map((item: any, idx: number) => (
+            <div key={idx} className="product-item">
+              <span>{item.quantity}</span>
+            </div>
+          ))}
+        </div>
+      )
+    }
 
-    {
-      accessorKey: "quantity",
-      header: "QTY",
-      cell: ({ row }) => <span>{row.original.quantity}</span>,
-    },
+    return <span>{row.original.quantity}</span>
+  },
+},
+
 
     {
   accessorKey: "transportOption",
@@ -115,7 +149,7 @@ export function OrdersTable({
 
     const isCustomerTransport = row.original.transportOption === "Customer"
 
-    // STAFF VIEW (new UI like screenshot)
+    // STAFF VIEW
     if (isStaff) {
       return (
         <span

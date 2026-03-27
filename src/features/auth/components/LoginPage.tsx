@@ -41,7 +41,7 @@ export const LoginPage: React.FC = () => {
     defaultValues: {
       userType: UserType.STAFF,
       userName: 'admin@gulfcement.ae',
-      password: 'admin@123'
+      password: 'Admin@123'
     }
   });
 
@@ -54,10 +54,10 @@ export const LoginPage: React.FC = () => {
     setValue('userType', mode === 'staff' ? UserType.STAFF : UserType.CUSTOMER);
     if (mode === 'staff') {
       setValue('userName', 'admin@gulfcement.ae');
-      setValue('password', 'admin@123');
+      setValue('password', 'Admin@123');
     } else {
       setValue('userName', 'habtoor@company.ae');
-      setValue('password', 'admin@123');
+      setValue('password', 'Admin@123');
     }
   };
 
@@ -177,27 +177,27 @@ export const LoginPage: React.FC = () => {
 
           {loginMode === 'staff' ? (
             <div className="quick-roles">
-              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'admin@gulfcement.ae'); setValue('password', 'admin@123'); }}>
+              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'admin@gulfcement.ae'); setValue('password', 'Admin@123'); }}>
                 <Settings size={16} /> System Admin
               </button>
-              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'dispatch@gulfcement.ae'); setValue('password', 'admin@123'); }}>
+              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'dispatch@gulfcement.ae'); setValue('password', 'Admin@123'); }}>
                 <ClipboardCheck size={16} /> Dispatch
               </button>
-              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'control@gulfcement.ae'); setValue('password', 'admin@123'); }}>
+              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'control@gulfcement.ae'); setValue('password', 'Admin@123'); }}>
                 <Ticket size={16} /> Control Room
               </button>
-              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'transport@gulfcement.ae'); setValue('password', 'admin@123'); }}>
+              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'transport@gulfcement.ae'); setValue('password', 'Admin@123'); }}>
                 <Truck size={16} /> Transport
               </button>
             </div>
           ) : (
              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'habtoor@company.ae'); setValue('password', 'admin@123'); }}>
+                <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'habtoor@company.ae'); setValue('password', 'Admin@123'); }}>
                   <Building2 size={14} />
                   <span style={{ flex: 1, textAlign: 'left' }}>Al Habtoor Group</span>
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>habtoor@company.ae</span>
                 </button>
-                <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'emaar@company.ae'); setValue('password', 'admin@123'); }}>
+                <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'emaar@company.ae'); setValue('password', 'Admin@123'); }}>
                   <Building2 size={14} />
                   <span style={{ flex: 1, textAlign: 'left' }}>Emaar Properties</span>
                   <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>emaar@company.ae</span>
