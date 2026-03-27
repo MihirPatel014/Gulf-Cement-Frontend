@@ -35,6 +35,9 @@ importers:
       react-hook-form:
         specifier: ^7.71.2
         version: 7.71.2(react@19.2.4)
+      react-is:
+        specifier: ^19.2.4
+        version: 19.2.4
       react-loading-skeleton:
         specifier: ^3.5.0
         version: 3.5.0(react@19.2.4)
