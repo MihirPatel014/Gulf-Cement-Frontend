@@ -64,19 +64,20 @@ export default function OrderDetailsPage() {
 }
   if (!order) return <div>Order not found</div>;
 
-  const timelineSteps = [
+const timelineSteps = [
   { key: "Submitted", label: "Order Submitted", icon: Check },
-  { key: "Approved", label: "Dispatch Approved", icon: ClipboardCheck },
+  { key: "Approved", label: "Approved", icon: ClipboardCheck },
+  { key: "ShipmentCreated", label: "Shipment Created", icon: Truck }, 
   { key: "TokenIssued", label: "Token Issued", icon: Ticket },
   { key: "ZoneAssigned", label: "Zone Assigned", icon: MapPin },
   { key: "Loading", label: "Loading", icon: Package },
+  { key: "Weighing", label: "Weighing", icon: Package },
   { key: "VoucherReady", label: "Voucher Ready", icon: FileText },
-  { key: "GateExit", label: "Gate Exit", icon: LogOut },
+  { key: "GateExit", label: "Gate Out", icon: LogOut },
   { key: "InTransit", label: "In Transit", icon: Truck },
-  { key: "Arrived", label: "Arrived at Site", icon: MapPinned },
-  { key: "Delivered", label: "Delivered", icon: CheckCircle },
-];
-
+  { key: "Arrived", label: "Arrived", icon: MapPinned },
+  { key: "Delivered", label: "Delivered", icon: CheckCircle }
+]
 const currentIndex = timelineSteps.findIndex(
   (s) => s.key === order.status
 );

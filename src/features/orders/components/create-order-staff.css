@@ -44,6 +44,17 @@
   box-shadow:0 0 0 2px rgba(37,99,235,0.1);
 }
 
+.modal-body input.input-error,
+.modal-body select.input-error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.modal-body input.input-error:focus,
+.modal-body select.input-error:focus {
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
 /* MODAL BODY */
 
 .modal-body{

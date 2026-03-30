@@ -306,6 +306,7 @@ export default function OrdersPage() {
           <option value="">All Status</option>
           <option value="Submitted">Submitted</option>
           <option value="Approved">Approved</option>
+          <option value="ShipmentCreated">Shipment Created</option>
           <option value="TokenIssued">Token Issued</option>
           <option value="ZoneAssigned">Zone Assigned</option>
           <option value="Loading">Loading</option>

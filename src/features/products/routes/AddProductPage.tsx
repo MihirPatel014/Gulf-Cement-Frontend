@@ -4,9 +4,13 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { useCreateProductMutation } from '../hooks/use-products-query';
 import { LoadingButton } from '../../../components/ui/LoadingButton';
 
+import { useNextSequenceQuery } from '../../common/hooks/use-next-sequence-number';
+
 export const AddProductPage: React.FC = () => {
   const navigate = useNavigate();
   const createMutation = useCreateProductMutation();
+  const { data: nextProductSequence } = useNextSequenceQuery("PRODUCT");
+  const nextProductCode = nextProductSequence?.nextNumber || "";
 
   const [formData, setFormData] = useState({
     name: '',
@@ -56,13 +60,15 @@ export const AddProductPage: React.FC = () => {
               />
             </div>
             <div className="form-group">
-              <label className="form-label font-semibold mb-2 block">Product Code</label>
+              <label className="form-label font-semibold mb-2 block flex justify-between">
+                <span>Product Code</span>
+                {nextProductCode && <span className="text-xs text-primary font-normal">Next: {nextProductCode}</span>}
+              </label>
               <input
                 className="form-input w-full p-3 border rounded-lg font-mono uppercase"
-                placeholder="e.g. CEM-OPC-01"
+                placeholder={nextProductCode || "e.g. CEM-OPC-01"}
                 value={formData.code}
                 onChange={e => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
-                required
               />
             </div>
           </div>

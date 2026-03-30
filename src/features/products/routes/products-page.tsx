@@ -25,7 +25,7 @@ export function ProductsPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-2">
       <DataTable
         columns={columns}
         data={products}

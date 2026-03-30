@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { customerApiService } from "../../../services/adapters/customers.api";
 
-export function useCustomersQuery() {
+export function useCustomersQuery(params?: { pageSize?: number }) {
   return useQuery({
-    queryKey: ["customers"],
-    queryFn: customerApiService.getCustomers
+    queryKey: ["customers", params],
+    queryFn: () => customerApiService.getCustomers(params?.pageSize)
   });
 }

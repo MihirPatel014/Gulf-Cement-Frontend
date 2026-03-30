@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { 
-  Lock, 
-  User, 
+import {
+  Lock,
+  User,
   Building2,
   Settings,
   ClipboardCheck,
@@ -26,7 +26,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export const LoginPage: React.FC = () => {
   const { login, isLoggingIn } = useAuth();
   const [loginMode, setLoginMode] = useState<'staff' | 'customer'>('staff');
-  
+
   React.useEffect(() => {
     document.title = 'Login - Gulf Cement';
   }, []);
@@ -191,18 +191,18 @@ export const LoginPage: React.FC = () => {
               </button>
             </div>
           ) : (
-             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'habtoor@company.ae'); setValue('password', 'Admin@123'); }}>
-                  <Building2 size={14} />
-                  <span style={{ flex: 1, textAlign: 'left' }}>Al Habtoor Group</span>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>habtoor@company.ae</span>
-                </button>
-                <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'emaar@company.ae'); setValue('password', 'Admin@123'); }}>
-                  <Building2 size={14} />
-                  <span style={{ flex: 1, textAlign: 'left' }}>Emaar Properties</span>
-                  <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>emaar@company.ae</span>
-                </button>
-             </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'habtoor@company.ae'); setValue('password', 'Admin@123'); }}>
+                <Building2 size={14} />
+                <span style={{ flex: 1, textAlign: 'left' }}>Al Habtoor Group</span>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>habtoor@company.ae</span>
+              </button>
+              <button type="button" className="quick-role-btn" onClick={() => { setValue('userName', 'emaar@company.ae'); setValue('password', 'Admin@123'); }}>
+                <Building2 size={14} />
+                <span style={{ flex: 1, textAlign: 'left' }}>Emaar Properties</span>
+                <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>emaar@company.ae</span>
+              </button>
+            </div>
           )}
         </form>
       </div>
