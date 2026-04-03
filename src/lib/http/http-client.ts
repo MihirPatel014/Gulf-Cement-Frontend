@@ -42,12 +42,29 @@ export async function httpPost<T>(path: string, body: unknown): Promise<T> {
     body: JSON.stringify(body),
   });
 
+  // Try to parse JSON response body
+  let resBody: string;
+  try {
+    resBody = await response.text();
+  } catch {
+    resBody = '';
+  }
+
+  // For 4xx errors, try to parse as JSON and return it instead of throwing
+  if (!response.ok && response.status >= 400 && response.status < 500) {
+    try {
+      const parsed = JSON.parse(resBody);
+      return parsed as T;
+    } catch {
+      throw new Error(`POST ${path} failed: ${response.status} ${resBody}`);
+    }
+  }
+
   if (!response.ok) {
-    const resBody = await response.text();
     throw new Error(`POST ${path} failed: ${response.status} ${resBody}`);
   }
 
-  return (await response.json()) as T;
+  return JSON.parse(resBody) as T;
 }
 
 export async function httpPut<T>(path: string, body: unknown): Promise<T> {
