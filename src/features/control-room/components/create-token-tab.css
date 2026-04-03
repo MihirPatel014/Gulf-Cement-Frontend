@@ -1,0 +1,61 @@
+.create-token-tab {
+  padding: 0;
+}
+
+/* Order cell styling */
+.order-no {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.customer-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.product-name {
+  color: var(--text-secondary);
+}
+
+.quantity {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Transport type badges */
+.transport-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.transport-badge.transport-company {
+  background-color: var(--info-bg);
+  color: var(--info);
+}
+
+.transport-badge.transport-own {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+}
+
+/* Create token button - uses global .btn-primary class */
+.btn-create-token {
+  font-size: 13px;
+}
+
+.btn-create-token .spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

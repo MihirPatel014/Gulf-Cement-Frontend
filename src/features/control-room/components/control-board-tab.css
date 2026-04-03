@@ -1,0 +1,88 @@
+.control-board-tab {
+  padding: 0;
+}
+
+/* Token cell styling */
+.token-no {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.truck-info,
+.driver-info,
+.customer-info,
+.product-info {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.zone-assigned {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.loading-point,
+.weighbridge {
+  color: var(--text-secondary);
+}
+
+/* Stage badges */
+.stage-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stage-badge.badge-blue {
+  background: var(--info-bg);
+  color: var(--info);
+}
+
+.stage-badge.badge-purple {
+  background: #f3e8ff;
+  color: #7c3aed;
+}
+
+.stage-badge.badge-yellow {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.stage-badge.badge-orange {
+  background: #fed7aa;
+  color: #ea580c;
+}
+
+.stage-badge.badge-teal {
+  background: #ccfbf1;
+  color: #0d9488;
+}
+
+.stage-badge.badge-indigo {
+  background: #e0e7ff;
+  color: #4f46e5;
+}
+
+.stage-badge.badge-gray {
+  background: var(--bg);
+  color: var(--text-secondary);
+}
+
+/* Zone assign button - uses global .btn-primary class */
+.btn-assign-zone {
+  font-size: 13px;
+  padding: 8px 14px;
+}
+
+/* Refresh button - uses global .btn class */
+.btn-refresh {
+  font-size: 13px;
+}
